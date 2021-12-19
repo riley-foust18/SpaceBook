@@ -15,10 +15,16 @@ const UserSchema = new Schema(
     },
     email: {
       type: String,
+      required: 'Please enter a valid email address',
       unique: true,
-      required: 'Email address is required',
-      validate: [validateEmail, 'Please fill a valid email address'],
-      match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address']
+      validate: {
+          validator(validEmail) {
+            return /^([a-zA-Z0-9_\.-]+)@([\da-z\.-]+)\.([a-z]{2,6})(\.[a-z]{2,6})?$/.test(
+              validEmail
+            );
+          },
+          message: "Please enter a valid email address",
+        }
     },
     thoughts: [
       {
