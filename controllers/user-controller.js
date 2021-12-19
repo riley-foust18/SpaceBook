@@ -40,7 +40,50 @@ const userController = {
     User.create(body)
       .then(dbUserData => res.json(dbUserData))
       .catch(err => res.status(400).json(err))
-  }
+  },
+
+  updateUser({params, body}, res) {
+    User.findOneAndUpdate({_id: params.userId}, body, {new: true})
+      .then(dbUserData => {
+        if (!dbUserData) {
+          res.status(404).json({ message: 'No user found with this id!' });
+          return;
+        }
+        res.json(dbUserData)
+      })
+      .catch(err => res.status(400).json(err));
+  },
+
+  deleteUser({params}, res) {
+    User.findOneAndDelete({_id: params.userId})
+      .then(dbUserData => {
+        if (!dbUserData) {
+          res.status(404).json({ message: 'No user found with this id!' });
+          return;
+        }
+        res.json({message: 'User and associated thoughts deleted!'})
+      })
+      .catch(err => res.status(400).json(err));
+  },
+
+  addFriend({params, body}, res) {
+    User.create(body)
+      .then(({_id}) => {
+        return User.findOneAndUpdate(
+          {_id: params.userId},
+          {$push: {friends: _id}},
+          {new: true}
+        )
+      })
+      .then(dbUserData => {
+        if (!dbUserData) {
+          res.status(404).json({ message: 'No user found with this id!' });
+          return;
+        }
+        res.json(dbUserData)
+      })
+      .catch(err => res.json(err));
+  },
 }
 
 module.exports = userController
