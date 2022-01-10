@@ -5,7 +5,7 @@
 An API for a social network web application where users can share their thoughts, add friends, and share their reaction!
   
 Below is a walkthrough of the application:
-[Walkthrough](https://watch.screencastify.com/v/pqoHnazpppvNA08cpSa3)
+[Walkthrough](https://watch.screencastify.com/v/acVDc1QFxKnv5PqC6d3n)
 
 ## User Story
    
